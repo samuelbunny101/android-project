@@ -1,6 +1,6 @@
 package com.example.hospitalapp.data
 
-import android.R
+
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
@@ -28,7 +28,7 @@ class PatientViewModel : ViewModel() {
         viewModelScope.launch (Dispatchers.IO){
             try {
                 val imageUrl = imageUri?.let {uploadToCloudinary(context, it)}
-                val ref = FirebaseDatabase.getInstance().getReference("patients")
+                val ref = FirebaseDatabase.getInstance().getReference("patients").push()
                 val patientData = mapOf(
                     "id" to ref.key,
                     "name" to name,
@@ -64,7 +64,7 @@ class PatientViewModel : ViewModel() {
             !response.isSuccessful
         )throw Exception("upload failed")
         val responseBody = response.body?.string()
-        val secure_url = Regex("secure_url\":\"(.*?)\"").find(responseBody ?: "")?.groupValues?.get(1)
-        return secure_url ?: throw Exception("Upload failed")
+        val secureUrl = Regex("secure_url\":\"(.*?)\"").find(responseBody ?: "")?.groupValues?.get(1)
+        return secureUrl ?: throw Exception("Upload failed")
     }
 }
