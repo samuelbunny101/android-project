@@ -59,7 +59,7 @@ import com.example.hospitalapp.navigation.ROUTE_ADD_PATIENT
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun dashboardScreen(navController: NavController) {
+fun DashboardScreen(navController: NavController) {
     val selectedItem = remember { mutableStateOf(0) }
     Scaffold(
         bottomBar = {
@@ -228,6 +228,6 @@ fun dashboardScreen(navController: NavController) {
 }
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun dashboardScreenPreview(){
-    dashboardScreen(rememberNavController())
+fun DashboardScreenPreview(){
+    DashboardScreen(rememberNavController())
 }

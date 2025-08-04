@@ -46,10 +46,10 @@ import java.time.format.TextStyle
 
 
 @Composable
-fun loginScreen(navController: NavController){
+fun LoginScreen(navController: NavController){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirmpassword by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     val authViewModel: AuthViewModel = viewModel()
 
     Box(){
@@ -103,8 +103,8 @@ fun loginScreen(navController: NavController){
             )
         )
         OutlinedTextField(
-            value = confirmpassword,
-            onValueChange = {confirmpassword = it},
+            value = confirmPassword,
+            onValueChange = {confirmPassword = it},
             label = { Text("Confirm Password") },
             placeholder = { Text("Please Confirm Password") },
             leadingIcon = { Icon( Icons.Default.Lock, contentDescription = "Password icon") },
@@ -144,6 +144,6 @@ fun loginScreen(navController: NavController){
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun loginScreenPreview(){
-    loginScreen(rememberNavController())
+fun LoginScreenPreview(){
+    LoginScreen(rememberNavController())
 }

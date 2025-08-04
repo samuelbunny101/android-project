@@ -51,12 +51,12 @@ import com.example.hospitalapp.data.AuthViewModel
 import com.example.hospitalapp.navigation.ROUTE_LOGIN
 
 @Composable
-fun registerScreen(navController: NavController) {
+fun RegisterScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var fullname by remember { mutableStateOf("") }
+    var fullName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var confirmpassword by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
 
     val authViewModel: AuthViewModel = viewModel()
 
@@ -82,7 +82,6 @@ fun registerScreen(navController: NavController) {
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.LightGray)
                 .padding(5.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -107,10 +106,10 @@ fun registerScreen(navController: NavController) {
             )
         )
         OutlinedTextField(
-            value = fullname,
-            onValueChange = { fullname = it },
-            label = { Text("Enter Fullname") },
-            placeholder = { Text("Please Enter Fullname") },
+            value = fullName,
+            onValueChange = { fullName = it },
+            label = { Text("Enter FullName") },
+            placeholder = { Text("Please Enter FullName") },
             leadingIcon = { Icon(Icons.Default.Person, contentDescription = "Person icon") },
             modifier = Modifier
                 .fillMaxWidth(0.8f),
@@ -144,8 +143,8 @@ fun registerScreen(navController: NavController) {
             )
         )
         OutlinedTextField(
-            value = confirmpassword,
-            onValueChange = { confirmpassword = it },
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
             label = { Text("Confirm Password") },
             placeholder = { Text("Please Confirm Password") },
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password icon") },
@@ -161,10 +160,10 @@ fun registerScreen(navController: NavController) {
             onClick = {
                 authViewModel.signup(
                     username = username,
-                    fullname = fullname,
+                    fullName = fullName,
                     email = email,
                     password = password,
-                    confirmPassword = confirmpassword,
+                    confirmPassword = confirmPassword,
                     navController = navController,
                     context = context)
             },
@@ -184,6 +183,6 @@ fun registerScreen(navController: NavController) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun registerScreenPreview(){
-    registerScreen(rememberNavController())
+fun RegisterScreenPreview(){
+    RegisterScreen(rememberNavController())
 }
