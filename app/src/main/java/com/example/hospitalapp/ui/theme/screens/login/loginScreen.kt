@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -31,8 +35,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +47,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hospitalapp.R
 import com.example.hospitalapp.data.AuthViewModel
-import java.time.format.TextStyle
+import com.example.hospitalapp.navigation.ROUTE_LOGIN
+import com.example.hospitalapp.navigation.ROUTE_REGISTER
 
 
 @Composable
@@ -51,99 +57,223 @@ fun LoginScreen(navController: NavController){
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     val authViewModel: AuthViewModel = viewModel()
+    val context = LocalContext.current
 
-    Box(){
+    Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.background3),
             contentDescription = "login background",
-            contentScale = ContentScale.FillBounds,
-        )
-    }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ){
-        Text(
-            text = "Login Here",
-            fontSize = 40.sp,
-            fontFamily = FontFamily.SansSerif,
-            fontStyle = FontStyle.Italic,
-            color = Color.Magenta,
-            textAlign = TextAlign.Center,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
+                .fillMaxSize()
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.3f))
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Login",
+                fontSize = 34.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+
+            val textFieldModifier = Modifier
                 .fillMaxWidth()
-                .background(Color.LightGray)
-                .padding(5.dp)
+                .padding(vertical = 6.dp)
 
-        )
-        OutlinedTextField(
-            value = email,
-            onValueChange = {email = it},
-            label = { Text("Enter Email") },
-            placeholder = { Text("Please Enter email") },
-            leadingIcon = { Icon( Icons.Default.Email, contentDescription = "Email icon") },
-            modifier = Modifier
-                .fillMaxWidth(0.8f),
-            colors = OutlinedTextFieldDefaults.colors(
-                Color.Blue
-            )
-        )
-        OutlinedTextField(
-            value = password,
-            onValueChange = {password = it},
-            label = { Text("Enter Password") },
-            placeholder = { Text("Please Enter a Password") },
-            leadingIcon = { Icon( Icons.Default.Lock, contentDescription = "Password icon") },
-            modifier = Modifier
-                .fillMaxWidth(0.8f),
-            colors = OutlinedTextFieldDefaults.colors(
-                Color.Blue
-            )
-        )
-        OutlinedTextField(
-            value = confirmPassword,
-            onValueChange = {confirmPassword = it},
-            label = { Text("Confirm Password") },
-            placeholder = { Text("Please Confirm Password") },
-            leadingIcon = { Icon( Icons.Default.Lock, contentDescription = "Password icon") },
-            modifier = Modifier
-                .fillMaxWidth(0.8f),
-            colors = OutlinedTextFieldDefaults.colors(
-                Color.Blue
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                leadingIcon = { Icon(Icons.Default.Email, contentDescription = "Email") },
+                modifier = textFieldModifier,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.LightGray,
+                    cursorColor = Color.White,
+                    focusedLeadingIconColor = Color.White,
+                    unfocusedLeadingIconColor = Color.LightGray,
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.LightGray
+                ),
+                textStyle = TextStyle(color = Color.White)
+
             )
 
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        val context = LocalContext.current
-        Button(
-            onClick = {
-                authViewModel.login(
-                    email = email,
-                    password = password,
-                    navController = navController,
-                    context = context
-                )
-            },
-            colors = ButtonDefaults.buttonColors(Color.Blue),
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-        )
-        { Text(text = "login", color = Color.White) }
-        Text(
-            text = "Already Registered , Login here",
-            color = Color.Blue,
-            modifier = Modifier
-                .clickable {}
-        )
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") },
+                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Password") },
+                modifier = textFieldModifier,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.LightGray,
+                    cursorColor = Color.White,
+                    focusedLeadingIconColor = Color.White,
+                    unfocusedLeadingIconColor = Color.LightGray,
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.LightGray
+                ),
+                textStyle = TextStyle(color = Color.White)
+            )
+
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                label = { Text("Confirm Password") },
+                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Confirm Password") },
+                modifier = textFieldModifier,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.LightGray,
+                    cursorColor = Color.White,
+                    focusedLeadingIconColor = Color.White,
+                    unfocusedLeadingIconColor = Color.LightGray,
+                    focusedLabelColor = Color.White,
+                    unfocusedLabelColor = Color.LightGray
+                ),
+                textStyle = TextStyle(color = Color.White)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                onClick = {
+                    authViewModel.login(
+                        email = email,
+                        password = password,
+                        navController = navController,
+                        context = context
+
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2)),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(text = "Login", fontSize = 16.sp, color = Color.White)
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "Don't have an account? Sign up",
+                color = Color.White,
+                modifier = Modifier
+                    .clickable { navController.navigate(ROUTE_REGISTER) }
+            )
+
+        }
     }
 }
-
-
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LoginScreenPreview(){
     LoginScreen(rememberNavController())
 }
+
+//Box(){
+//    Image(
+//        painter = painterResource(id = R.drawable.background3),
+//        contentDescription = "login background",
+//        contentScale = ContentScale.FillBounds,
+//    )
+//}
+//
+//Column(
+//modifier = Modifier.fillMaxSize(),
+//verticalArrangement = Arrangement.Center,
+//horizontalAlignment = Alignment.CenterHorizontally
+//){
+//    Text(
+//        text = "Login Here",
+//        fontSize = 40.sp,
+//        fontFamily = FontFamily.SansSerif,
+//        fontStyle = FontStyle.Italic,
+//        color = Color.Magenta,
+//        textAlign = TextAlign.Center,
+//        modifier = Modifier
+//            .fillMaxWidth()
+//            .background(Color.LightGray)
+//            .padding(5.dp)
+//
+//    )
+//    OutlinedTextField(
+//        value = email,
+//        onValueChange = {email = it},
+//        label = { Text("Enter Email") },
+//        placeholder = { Text("Please Enter email") },
+//        leadingIcon = { Icon( Icons.Default.Email, contentDescription = "Email icon") },
+//        modifier = Modifier
+//            .fillMaxWidth(0.8f),
+//        colors = OutlinedTextFieldDefaults.colors(
+//            Color.Blue
+//        )
+//    )
+//    OutlinedTextField(
+//        value = password,
+//        onValueChange = {password = it},
+//        label = { Text("Enter Password") },
+//        placeholder = { Text("Please Enter a Password") },
+//        leadingIcon = { Icon( Icons.Default.Lock, contentDescription = "Password icon") },
+//        modifier = Modifier
+//            .fillMaxWidth(0.8f),
+//        colors = OutlinedTextFieldDefaults.colors(
+//            Color.Blue
+//        )
+//    )
+//    OutlinedTextField(
+//        value = confirmPassword,
+//        onValueChange = {confirmPassword = it},
+//        label = { Text("Confirm Password") },
+//        placeholder = { Text("Please Confirm Password") },
+//        leadingIcon = { Icon( Icons.Default.Lock, contentDescription = "Password icon") },
+//        modifier = Modifier
+//            .fillMaxWidth(0.8f),
+//        colors = OutlinedTextFieldDefaults.colors(
+//            Color.Blue
+//        )
+//
+//    )
+//    Spacer(modifier = Modifier.height(10.dp))
+//    val context = LocalContext.current
+//    Button(
+//        onClick = {
+//            authViewModel.login(
+//                email = email,
+//                password = password,
+//                navController = navController,
+//                context = context
+//            )
+//        },
+//        colors = ButtonDefaults.buttonColors(Color.Blue),
+//        modifier = Modifier
+//            .fillMaxWidth(0.8f)
+//    )
+//    { Text(text = "login", color = Color.White) }
+//    Text(
+//        text = "Already Registered , Login here",
+//        color = Color.Blue,
+//        modifier = Modifier
+//            .clickable {}
+//    )
+//}

@@ -4,10 +4,12 @@ package com.example.hospitalapp.data
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
-import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.runtime.mutableStateListOf
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cloudinary.Url
+
+import com.example.hospitalapp.models.Patient
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +26,6 @@ class PatientViewModel : ViewModel() {
     val cloudinaryUrl = "https:?api.cloudinary.com/v1_1/dmigncqrc/image>upload"
     val uploadPreset = "app_images"
     fun uploadPatient(imageUri: Uri?, name: String, gender: String, nationality: String, phoneNumber: String, age: String, diagnosis: String, context: Context) {
-
         viewModelScope.launch (Dispatchers.IO){
             try {
                 val imageUrl = imageUri?.let {uploadToCloudinary(context, it)}
@@ -50,6 +51,23 @@ class PatientViewModel : ViewModel() {
             }
         }
     }
+
+    private val _patients = mutableStateListOf<Patient>()
+    val patients: List<Patient> = _patients
+    fun fetchPatients(context: Context) {
+        val ref = FirebaseDatabase.getInstance().getReference("patients")
+        ref.get().addOnSuccessListener {
+            snapshot ->
+            _patients.clear()
+            for (child in snapshot.children){
+                val patient = child.getValue(Patient::class.java)
+                patient?.let { _patients.add(it) }
+            }
+        }.addOnFailureListener{
+            Toast.makeText(context, "Failed to fetch patients", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun uploadToCloudinary(context: Context, uri: Uri): String? {
         val contentResolver = context.contentResolver
         val inputStream: InputStream? = contentResolver.openInputStream(uri)
