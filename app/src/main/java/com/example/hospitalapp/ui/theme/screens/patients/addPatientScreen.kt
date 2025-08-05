@@ -61,6 +61,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.hospitalapp.R
 import com.example.hospitalapp.data.PatientViewModel
+import com.example.hospitalapp.navigation.ROUTE_DASHBOARD
 
 @Composable
 fun AddPatientScreen(navController:NavController) {
@@ -262,7 +263,7 @@ fun AddPatientScreen(navController:NavController) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     OutlinedButton(
-                        onClick = { },
+                        onClick = { navController.navigate(ROUTE_DASHBOARD) },
                         modifier = Modifier
                             .weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)

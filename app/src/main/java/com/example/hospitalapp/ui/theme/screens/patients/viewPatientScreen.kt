@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -69,5 +70,11 @@ fun PatientDetailsCard (patient: Patient){
                 Text(text = "Diagnosis: ${patient.diagnosis}")
             }
         }
+        TextButton(
+            onClick = {}
+        ) { Text(text = "Update") }
+        TextButton(
+            onClick = {}
+        ) { Text(text = "Delete") }
     }
 }
