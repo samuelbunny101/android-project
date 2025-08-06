@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -73,6 +74,33 @@ class PatientViewModel : ViewModel() {
             _patients.removeAll { it.id == patientId }
         }.addOnFailureListener {
             Toast.makeText(context, "Failed to delete patient", Toast.LENGTH_LONG).show()
+        }
+    }
+    fun updatePatient(patientId: String, imageUri: Uri?, name: String, gender: String, nationality: String, phoneNumber: String, age: String, diagnosis: String, context: Context){
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                val imageUrl = imageUri?.let { uploadToCloudinary(context, it) }
+                val updatePatient = mapOf(
+                    "id" to patientId,
+                    "name" to name,
+                    "gender" to gender,
+                    "nationality" to nationality,
+                    "phoneNumber" to phoneNumber,
+                    "age" to age,
+                    "diagnosis" to diagnosis,
+                    "imageUrl" to imageUri
+                )
+                val ref = FirebaseDatabase.getInstance().getReference("patients").child(patientId)
+                ref.setValue(updatePatient).await()
+                fetchPatients(context)
+                withContext(Dispatchers.Main){
+                    Toast.makeText(context, "Patient updated successfully", Toast.LENGTH_LONG).show()
+                }
+            }catch (e: Exception){
+                withContext(Dispatchers.Main){
+                    Toast.makeText(context, "Patient not updated", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

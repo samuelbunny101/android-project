@@ -159,17 +159,20 @@ fun DashboardScreen(navController: NavController) {
                         .padding(horizontal = 12.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    DashboardCard("Add Patient", ROUTE_ADD_PATIENT, navController, cardModifier, cardTextStyle)
-                    DashboardCard("View Patient", ROUTE_VIEW_PATIENT, navController, cardModifier, cardTextStyle)
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    DashboardCard("Add Doctor", ROUTE_ADD_PATIENT, navController, cardModifier, cardTextStyle)
-                    DashboardCard("View Doctor", ROUTE_ADD_PATIENT, navController, cardModifier, cardTextStyle)
+                    DashboardCard(
+                        title = "Add Patient",
+                        route = ROUTE_ADD_PATIENT,
+                        navController = navController,
+                        modifier = cardModifier,
+                        textStyle = cardTextStyle
+                    )
+                    DashboardCard(
+                        title = "View Patient",
+                        route = ROUTE_VIEW_PATIENT,
+                        navController = navController,
+                        modifier = cardModifier,
+                        textStyle = cardTextStyle
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(80.dp))
@@ -178,18 +181,26 @@ fun DashboardScreen(navController: NavController) {
     }
 }
 @Composable
-fun DashboardCard(title: String, route: String, navController: NavController, modifier: Modifier, textStyle: TextStyle) {
+fun DashboardCard(
+    title: String,
+    route: String,
+    navController: NavController,
+    modifier: Modifier,
+    textStyle: TextStyle,
+    iconContent: @Composable () -> Unit = {}
+) {
     Card(
         modifier = modifier.clickable { navController.navigate(route) },
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(1.dp),
         colors = CardDefaults.cardColors(Color.White)
     ) {
-        Box(
+        Row (
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            contentAlignment = Alignment.Center
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(text = title, style = textStyle)
         }

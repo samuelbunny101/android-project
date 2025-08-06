@@ -2,13 +2,16 @@ package com.example.hospitalapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.hospitalapp.ui.theme.screens.dashboard.DashboardScreen
 import com.example.hospitalapp.ui.theme.screens.login.LoginScreen
 import com.example.hospitalapp.ui.theme.screens.patients.AddPatientScreen
 import com.example.hospitalapp.ui.theme.screens.patients.PatientListScreen
+import com.example.hospitalapp.ui.theme.screens.patients.UpdatePatientScreen
 import com.example.hospitalapp.ui.theme.screens.register.RegisterScreen
 
 @Composable
@@ -28,6 +31,11 @@ fun AppNavHost(navController: NavHostController = rememberNavController(), start
         }
         composable (ROUTE_VIEW_PATIENT){
             PatientListScreen(navController)
+        }
+        composable (ROUTE_UPDATE_PATIENT, arguments = listOf(navArgument("patientId"){type = NavType.StringType})){
+            backStackEntry ->
+            val patientId = backStackEntry.arguments?.getString("patientId")!!
+            UpdatePatientScreen(navController, patientId)
         }
     }
 }

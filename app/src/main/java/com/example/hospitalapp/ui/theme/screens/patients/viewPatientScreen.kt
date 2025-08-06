@@ -45,15 +45,17 @@ fun PatientListScreen (navController: NavController){
         items(patients){ patient ->
             PatientDetailsCard(
                 patient = patient,
-                onDelete = { patientId ->
+                onDelete = {
+                    patientId ->
                     patientViewModel.deletePatient(patientId, context)
-                }
+                },
+                navController = navController
             )
         }
     }
 }
 @Composable
-fun PatientDetailsCard (patient: Patient, onDelete: (String) -> Unit){
+fun PatientDetailsCard (patient: Patient, onDelete: (String) -> Unit, navController: NavController){
     var showDialog by remember { mutableStateOf(false) }
     if (showDialog){
         AlertDialog(
@@ -114,7 +116,7 @@ fun PatientDetailsCard (patient: Patient, onDelete: (String) -> Unit){
 
         Row (horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()){
             TextButton(
-                onClick = {  }
+                onClick = { navController.navigate("updatePatient/${patient.id}") }
             ) { Text("Update", color = Color.Blue) }
             TextButton(
                 onClick = { showDialog = true }
