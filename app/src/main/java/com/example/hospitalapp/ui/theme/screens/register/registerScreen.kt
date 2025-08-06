@@ -57,7 +57,6 @@ fun RegisterScreen(navController: NavController) {
     var fullName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-
     val authViewModel: AuthViewModel = viewModel()
     val context = LocalContext.current
 
@@ -93,11 +92,9 @@ fun RegisterScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             )
-
             val textFieldModifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 6.dp)
-
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
@@ -115,7 +112,6 @@ fun RegisterScreen(navController: NavController) {
                 ),
                 textStyle = TextStyle(color = Color.White)
             )
-
             OutlinedTextField(
                 value = fullName,
                 onValueChange = { fullName = it },
@@ -133,7 +129,6 @@ fun RegisterScreen(navController: NavController) {
                 ),
                 textStyle = TextStyle(color = Color.White)
             )
-
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -152,7 +147,6 @@ fun RegisterScreen(navController: NavController) {
                 ),
                 textStyle = TextStyle(color = Color.White)
             )
-
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
@@ -170,7 +164,6 @@ fun RegisterScreen(navController: NavController) {
                 ),
                 textStyle = TextStyle(color = Color.White)
             )
-
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },

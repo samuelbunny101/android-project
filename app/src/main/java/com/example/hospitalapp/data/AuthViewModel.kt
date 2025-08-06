@@ -60,15 +60,11 @@ class AuthViewModel: ViewModel() {
         }
     }
     fun login(email: String, password: String, navController: NavController, context: Context){
-        if (
-            email.isBlank() ||
-            password.isBlank()
-        ) {
+        if (email.isBlank() || password.isBlank()) {
             Toast.makeText(context, "Email and Password required", Toast.LENGTH_LONG).show()
             return
         }
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            task ->
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful){
                 Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
                 navController.navigate(ROUTE_DASHBOARD){

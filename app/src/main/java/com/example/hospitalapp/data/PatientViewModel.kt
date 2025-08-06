@@ -67,6 +67,14 @@ class PatientViewModel : ViewModel() {
             Toast.makeText(context, "Failed to fetch patients", Toast.LENGTH_LONG).show()
         }
     }
+    fun deletePatient(patientId: String, context: Context){
+        val ref = FirebaseDatabase.getInstance().getReference("patients").child(patientId)
+        ref.removeValue().addOnSuccessListener {
+            _patients.removeAll { it.id == patientId }
+        }.addOnFailureListener {
+            Toast.makeText(context, "Failed to delete patient", Toast.LENGTH_LONG).show()
+        }
+    }
 
     private fun uploadToCloudinary(context: Context, uri: Uri): String? {
         val contentResolver = context.contentResolver
