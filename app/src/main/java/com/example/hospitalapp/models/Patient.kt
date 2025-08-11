@@ -8,6 +8,7 @@ data class Patient (
     val nationality: String? = null,
     val phoneNumber: String? = null,
     val age: String? = null,
+    val nextOfKin: String? = null,
     val diagnosis: String? = null,
     val imageUrl: String? = null
 

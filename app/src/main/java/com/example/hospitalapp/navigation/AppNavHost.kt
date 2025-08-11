@@ -15,7 +15,7 @@ import com.example.hospitalapp.ui.theme.screens.patients.UpdatePatientScreen
 import com.example.hospitalapp.ui.theme.screens.register.RegisterScreen
 
 @Composable
-fun AppNavHost(navController: NavHostController = rememberNavController(), startDestination: String = ROUTE_REGISTER){
+fun AppNavHost(navController: NavHostController = rememberNavController(), startDestination: String = ROUTE_DASHBOARD){
     NavHost(navController = navController, startDestination = startDestination){
         composable (ROUTE_REGISTER){
             RegisterScreen(navController)

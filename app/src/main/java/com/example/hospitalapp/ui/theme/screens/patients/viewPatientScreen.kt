@@ -104,10 +104,10 @@ fun PatientDetailsCard (patient: Patient, onDelete: (String) -> Unit, navControl
             }
             Column (){
                 Text(text = "Name: ${patient.name}")
-                Text(text = "Age: ${patient.age}")
                 Text(text = "Gender: ${patient.gender}")
                 Text(text = "Nationality: ${patient.nationality}")
                 Text(text = "Diagnosis: ${patient.diagnosis}")
+                Text(text = "Next of Kin: ${patient.nextOfKin}")
             }
         }
 

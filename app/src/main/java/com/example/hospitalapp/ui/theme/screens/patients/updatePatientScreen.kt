@@ -65,6 +65,7 @@ import com.example.hospitalapp.R
 import com.example.hospitalapp.data.PatientViewModel
 import com.example.hospitalapp.models.Patient
 import com.example.hospitalapp.navigation.ROUTE_DASHBOARD
+import com.example.hospitalapp.navigation.ROUTE_UPDATE_PATIENT
 import com.example.hospitalapp.navigation.ROUTE_VIEW_PATIENT
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
@@ -94,6 +95,7 @@ fun UpdatePatientScreen(navController:NavController, patientId: String) {
     var nationality by remember { mutableStateOf(patient!!.nationality ?: "") }
     var phoneNumber by remember { mutableStateOf(patient!!.phoneNumber ?: "") }
     var age by remember { mutableStateOf(patient!!.age ?: "") }
+    var nextOfKin by remember { mutableStateOf(patient!!.nextOfKin ?: "") }
     var diagnosis by remember { mutableStateOf(patient!!.diagnosis ?: "") }
 
     val imageUri = remember { mutableStateOf<Uri?>(null) }
@@ -256,6 +258,24 @@ fun UpdatePatientScreen(navController:NavController, patientId: String) {
                     )
                 )
                 OutlinedTextField(
+                    value = nextOfKin,
+                    onValueChange = { nextOfKin = it },
+                    label = { Text("Enter Patient Next of Kin") },
+                    placeholder = { Text("Please Enter Patient Next of Kin") },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedLabelColor = Color.White,
+                        unfocusedLabelColor = Color.White,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.White,
+                        focusedPlaceholderColor = Color.White,
+                    )
+                )
+                OutlinedTextField(
                     value = diagnosis,
                     onValueChange = { diagnosis = it },
                     label = { Text("Diagnosis") },
@@ -288,7 +308,7 @@ fun UpdatePatientScreen(navController:NavController, patientId: String) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     OutlinedButton(
-                        onClick = { navController.navigate(ROUTE_DASHBOARD) },
+                        onClick = { navController.popBackStack() },
                         modifier = Modifier
                             .weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
@@ -299,7 +319,21 @@ fun UpdatePatientScreen(navController:NavController, patientId: String) {
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Button(
-                        onClick = {  },
+                        onClick = {
+                            patientViewModel.updatePatient(
+                                patientId,
+                                imageUri.value,
+                                name,
+                                gender,
+                                nationality,
+                                phoneNumber,
+                                age,
+                                nextOfKin,
+                                diagnosis,
+                                context,
+                                navController
+                            )
+                        },
                         modifier = Modifier
                             .weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White)

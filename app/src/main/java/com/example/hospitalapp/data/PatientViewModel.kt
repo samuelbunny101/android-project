@@ -8,8 +8,11 @@ import androidx.compose.runtime.mutableStateListOf
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 
 import com.example.hospitalapp.models.Patient
+import com.example.hospitalapp.navigation.ROUTE_DASHBOARD
+import com.example.hospitalapp.navigation.ROUTE_VIEW_PATIENT
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,7 +29,7 @@ import java.io.InputStream
 class PatientViewModel : ViewModel() {
     val cloudinaryUrl = "https:?api.cloudinary.com/v1_1/dmigncqrc/image>upload"
     val uploadPreset = "app_images"
-    fun uploadPatient(imageUri: Uri?, name: String, gender: String, nationality: String, phoneNumber: String, age: String, diagnosis: String, context: Context) {
+    fun uploadPatient(imageUri: Uri?, name: String, gender: String, nationality: String, phoneNumber: String, age: String, nextOfKin: String, diagnosis: String, context: Context, navController: NavController) {
         viewModelScope.launch (Dispatchers.IO){
             try {
                 val imageUrl = imageUri?.let {uploadToCloudinary(context, it)}
@@ -38,12 +41,14 @@ class PatientViewModel : ViewModel() {
                     "nationality" to nationality,
                     "phoneNumber" to phoneNumber,
                     "age" to age,
+                    "nextOfKin" to nextOfKin,
                     "diagnosis" to diagnosis,
                     "imageUrl" to imageUrl
                 )
                 ref.setValue(patientData).await()
                 withContext(Dispatchers.Main){
                     Toast.makeText(context, "Patient added successfully", Toast.LENGTH_LONG).show()
+                    navController.navigate(ROUTE_VIEW_PATIENT)
                 }
             }catch (e: Exception){
                 withContext(Dispatchers.Main){
@@ -76,7 +81,7 @@ class PatientViewModel : ViewModel() {
             Toast.makeText(context, "Failed to delete patient", Toast.LENGTH_LONG).show()
         }
     }
-    fun updatePatient(patientId: String, imageUri: Uri?, name: String, gender: String, nationality: String, phoneNumber: String, age: String, diagnosis: String, context: Context){
+    fun updatePatient(patientId: String, imageUri: Uri?, name: String, gender: String, nationality: String, phoneNumber: String, age: String, nextOfKin: String, diagnosis: String, context: Context, navController: NavController){
         viewModelScope.launch(Dispatchers.IO){
             try {
                 val imageUrl = imageUri?.let { uploadToCloudinary(context, it) }
@@ -87,6 +92,7 @@ class PatientViewModel : ViewModel() {
                     "nationality" to nationality,
                     "phoneNumber" to phoneNumber,
                     "age" to age,
+                    "nextOfKin" to nextOfKin,
                     "diagnosis" to diagnosis,
                     "imageUrl" to imageUri
                 )
@@ -95,6 +101,7 @@ class PatientViewModel : ViewModel() {
                 fetchPatients(context)
                 withContext(Dispatchers.Main){
                     Toast.makeText(context, "Patient updated successfully", Toast.LENGTH_LONG).show()
+                    navController.navigate(ROUTE_DASHBOARD)
                 }
             }catch (e: Exception){
                 withContext(Dispatchers.Main){

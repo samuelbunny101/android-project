@@ -1,11 +1,11 @@
 package com.example.hospitalapp.ui.theme.screens.patients
 
-import android.content.Context
+
 import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
+
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.VectorConverter
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,8 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -61,8 +60,6 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.hospitalapp.R
 import com.example.hospitalapp.data.PatientViewModel
-import com.example.hospitalapp.navigation.ROUTE_DASHBOARD
-
 @Composable
 fun AddPatientScreen(navController:NavController) {
     var name by remember { mutableStateOf("") }
@@ -71,6 +68,7 @@ fun AddPatientScreen(navController:NavController) {
     var phoneNumber by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var diagnosis by remember { mutableStateOf("") }
+    var nextOfKin by remember { mutableStateOf("") }
     val imageUri = rememberSaveable { mutableStateOf<Uri?>(null) }
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
@@ -231,6 +229,24 @@ fun AddPatientScreen(navController:NavController) {
                     )
                 )
                 OutlinedTextField(
+                    value = nextOfKin,
+                    onValueChange = { nextOfKin = it },
+                    label = { Text("Next of Kin") },
+                    placeholder = { Text("Write next of kin") },
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    textStyle = TextStyle(color = Color.White),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedLabelColor = Color.White,
+                        unfocusedLabelColor = Color.White,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.White,
+                        focusedPlaceholderColor = Color.White,
+                    )
+                )
+                OutlinedTextField(
                     value = diagnosis,
                     onValueChange = { diagnosis = it },
                     label = { Text("Diagnosis") },
@@ -263,7 +279,7 @@ fun AddPatientScreen(navController:NavController) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
                     OutlinedButton(
-                        onClick = { navController.navigate(ROUTE_DASHBOARD) },
+                        onClick = { navController.popBackStack() },
                         modifier = Modifier
                             .weight(1f),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
@@ -282,8 +298,10 @@ fun AddPatientScreen(navController:NavController) {
                                 nationality,
                                 phoneNumber,
                                 age,
+                                nextOfKin,
                                 diagnosis,
-                                context
+                                context,
+                                navController
                             )
                         },
                         modifier = Modifier
