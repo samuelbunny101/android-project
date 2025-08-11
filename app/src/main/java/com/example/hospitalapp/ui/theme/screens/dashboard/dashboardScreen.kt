@@ -55,13 +55,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hospitalapp.R
+import com.example.hospitalapp.data.AuthViewModel
 import com.example.hospitalapp.navigation.ROUTE_ADD_PATIENT
 import com.example.hospitalapp.navigation.ROUTE_VIEW_PATIENT
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(navController: NavController) {
+fun DashboardScreen(navController: NavController, authViewModel: AuthViewModel = AuthViewModel()) {
     val selectedItem = remember { mutableStateOf(0) }
 
     val cardModifier = Modifier
@@ -69,7 +70,6 @@ fun DashboardScreen(navController: NavController) {
         .width(140.dp)
         .height(140.dp)
         .clickable {}
-
     val cardTextStyle = TextStyle(
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
@@ -187,7 +187,7 @@ fun DashboardCard(
     navController: NavController,
     modifier: Modifier,
     textStyle: TextStyle,
-    iconContent: @Composable () -> Unit = {}
+//    iconContent: @Composable () -> Unit = {}
 ) {
     Card(
         modifier = modifier.clickable { navController.navigate(route) },
@@ -211,170 +211,3 @@ fun DashboardCard(
 fun DashboardScreenPreview(){
     DashboardScreen(rememberNavController())
 }
-
-
-
-//Scaffold(
-//bottomBar = {
-//    NavigationBar (containerColor = Color.Transparent){
-//        NavigationBarItem(
-//            selected = selectedItem.value == 0,
-//            onClick = { },
-//            icon = {Icon(Icons.Filled.Share, contentDescription = "Share")},
-//            label = {Text(text = "Share")},
-//            alwaysShowLabel = true
-//        )
-//        NavigationBarItem(
-//            selected = selectedItem.value == 1,
-//            onClick = { },
-//            icon = {Icon(Icons.Filled.Home, contentDescription = "Home")},
-//            label = {Text(text = "Home")},
-//            alwaysShowLabel = true
-//        )
-//        NavigationBarItem(
-//            selected = selectedItem.value == 2,
-//            onClick = { },
-//            icon = {Icon(Icons.Filled.Email, contentDescription = "Email")},
-//            label = {Text(text = "Email")},
-//            alwaysShowLabel = true
-//        )
-//    }
-//}
-//) {
-//    innerPadding ->
-//    Box(
-//        modifier = Modifier
-//            .padding(innerPadding)
-//    ){
-//        Image(
-//            painter = painterResource(id = R.drawable.lion),
-//            contentDescription = "Background image",
-//            contentScale = ContentScale.FillBounds,
-//        )
-//    }
-//    Column (
-//        modifier = Modifier
-//            .fillMaxSize(),
-//        horizontalAlignment = Alignment.CenterHorizontally
-//    ){
-//        TopAppBar(
-//            title = { Text(text = "Equity Bank") },
-//            navigationIcon = {
-//                IconButton(onClick = {}) {
-//                    Icon(Icons.Filled.Menu, contentDescription = "Menu")
-//                }
-//            },
-//            actions = {
-//                IconButton(onClick = {}) {
-//                    Icon(Icons.Filled.Search, contentDescription = "Search")
-//                }
-//                IconButton(onClick = {}) {
-//                    Icon(Icons.Filled.Person, contentDescription = "Person")
-//                }
-//                IconButton(onClick = {}){
-//                    Icon(Icons.Filled.AccountCircle, contentDescription = "Logout")
-//                }
-//            },
-//            colors = TopAppBarDefaults.topAppBarColors(
-//                containerColor = Color.DarkGray,
-//                titleContentColor = Color.White,
-//                navigationIconContentColor = Color.White,
-//                actionIconContentColor = Color.White
-//            )
-//        )
-//        Row (modifier = Modifier.wrapContentWidth()){
-//            Card (
-//                modifier = Modifier
-//                    .padding(10.dp)
-//                    .clickable{ navController.navigate(ROUTE_ADD_PATIENT) },
-//                shape = RoundedCornerShape(20.dp),
-//                elevation = CardDefaults.cardElevation(10.dp),
-//                colors = CardDefaults.cardColors(Color.White)
-//            ){
-//                Box(modifier = Modifier.height(100.dp).padding(20.dp), contentAlignment = Alignment.Center){
-//                    Text(
-//                        text = "Add Patient",
-//                        fontSize = 20.sp,
-//                        fontFamily = FontFamily.SansSerif,
-//                        fontStyle = FontStyle.Italic,
-//                        color = Color.Magenta,
-//                        textAlign = TextAlign.Center
-//
-//                    )
-//                }
-//            }
-//
-//            Spacer(
-//                modifier = Modifier
-//                    .width(25.dp)
-//            )
-//
-//            Card (
-//                modifier = Modifier
-//                    .padding(10.dp)
-//                    .clickable{navController.navigate(ROUTE_VIEW_PATIENT)},
-//                shape = RoundedCornerShape(20.dp),
-//                elevation = CardDefaults.cardElevation(10.dp),
-//                colors = CardDefaults.cardColors(Color.White)
-//            ){
-//                Box(modifier = Modifier.height(100.dp).padding(20.dp), contentAlignment = Alignment.Center){
-//                    Text(
-//                        text = "View Patient",
-//                        fontSize = 20.sp,
-//                        fontFamily = FontFamily.SansSerif,
-//                        fontStyle = FontStyle.Italic,
-//                        color = Color.Magenta,
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
-//            }
-//        }
-//        Row (modifier = Modifier.wrapContentWidth()){
-//            Card (
-//                modifier = Modifier
-//                    .padding(10.dp)
-//                    .clickable{navController.navigate(ROUTE_ADD_PATIENT)},
-//                shape = RoundedCornerShape(20.dp),
-//                elevation = CardDefaults.cardElevation(10.dp),
-//                colors = CardDefaults.cardColors(Color.White)
-//            ){
-//                Box(modifier = Modifier.height(100.dp).padding(20.dp), contentAlignment = Alignment.Center){
-//                    Text(
-//                        text = "add doctor",
-//                        fontSize = 20.sp,
-//                        fontFamily = FontFamily.SansSerif,
-//                        fontStyle = FontStyle.Italic,
-//                        color = Color.Magenta,
-//                        textAlign = TextAlign.Center
-//
-//                    )
-//                }
-//            }
-//
-//            Spacer(
-//                modifier = Modifier
-//                    .width(25.dp)
-//            )
-//
-//            Card (
-//                modifier = Modifier
-//                    .padding(10.dp)
-//                    .clickable{navController.navigate(ROUTE_ADD_PATIENT)},
-//                shape = RoundedCornerShape(20.dp),
-//                elevation = CardDefaults.cardElevation(10.dp),
-//                colors = CardDefaults.cardColors(Color.White)
-//            ){
-//                Box(modifier = Modifier.height(100.dp).padding(20.dp), contentAlignment = Alignment.Center){
-//                    Text(
-//                        text = "view doctor",
-//                        fontSize = 20.sp,
-//                        fontFamily = FontFamily.SansSerif,
-//                        fontStyle = FontStyle.Italic,
-//                        color = Color.Magenta,
-//                        textAlign = TextAlign.Center
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}

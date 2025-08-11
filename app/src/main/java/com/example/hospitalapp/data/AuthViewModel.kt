@@ -75,4 +75,14 @@ class AuthViewModel: ViewModel() {
             }
         }
     }
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    fun logout(navController: NavController){
+        firebaseAuth.signOut()
+        navController.navigate(ROUTE_LOGIN){
+            popUpTo(navController.graph.startDestinationId){
+                inclusive = true
+            }
+            launchSingleTop = true
+        }
+    }
 }
