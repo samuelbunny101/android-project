@@ -57,6 +57,7 @@ fun PatientListScreen (navController: NavController){
 @Composable
 fun PatientDetailsCard (patient: Patient, onDelete: (String) -> Unit, navController: NavController){
     var showDialog by remember { mutableStateOf(false) }
+
     if (showDialog){
         AlertDialog(
             onDismissRequest = { showDialog = false },
@@ -104,8 +105,6 @@ fun PatientDetailsCard (patient: Patient, onDelete: (String) -> Unit, navControl
             }
             Column (){
                 Text(text = "Name: ${patient.name}")
-                Text(text = "Gender: ${patient.gender}")
-                Text(text = "Nationality: ${patient.nationality}")
                 Text(text = "Diagnosis: ${patient.diagnosis}")
                 Text(text = "Next of Kin: ${patient.nextOfKin}")
             }

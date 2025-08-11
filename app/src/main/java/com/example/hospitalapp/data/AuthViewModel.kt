@@ -76,7 +76,7 @@ class AuthViewModel: ViewModel() {
         }
     }
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    fun logout(navController: NavController){
+    fun logout(navController: NavController, context: Context){
         firebaseAuth.signOut()
         navController.navigate(ROUTE_LOGIN){
             popUpTo(navController.graph.startDestinationId){
@@ -84,5 +84,6 @@ class AuthViewModel: ViewModel() {
             }
             launchSingleTop = true
         }
+        Toast.makeText(context, "Logout Successful", Toast.LENGTH_LONG).show()
     }
 }

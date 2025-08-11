@@ -2,6 +2,7 @@ package com.example.hospitalapp.ui.theme.screens.dashboard
 
 
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +27,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -35,6 +37,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -44,6 +47,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -64,6 +68,8 @@ import com.example.hospitalapp.navigation.ROUTE_VIEW_PATIENT
 @Composable
 fun DashboardScreen(navController: NavController, authViewModel: AuthViewModel = AuthViewModel()) {
     val selectedItem = remember { mutableStateOf(0) }
+    val showLogoutDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val cardModifier = Modifier
         .padding(10.dp)
@@ -140,7 +146,7 @@ fun DashboardScreen(navController: NavController, authViewModel: AuthViewModel =
                         IconButton(onClick = {}) {
                             Icon(Icons.Filled.Person, contentDescription = "Profile")
                         }
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = { showLogoutDialog.value = true }) {
                             Icon(Icons.Filled.AccountCircle, contentDescription = "Logout")
                         }
                     },
@@ -176,6 +182,27 @@ fun DashboardScreen(navController: NavController, authViewModel: AuthViewModel =
                 }
 
                 Spacer(modifier = Modifier.height(80.dp))
+
+                if (showLogoutDialog.value) {
+                    AlertDialog(
+                        onDismissRequest = { showLogoutDialog.value = false },
+                        title = { Text("Logout") },
+                        text = { Text("Are you sure you want to logout?") },
+                        confirmButton = {
+                            TextButton(onClick = {
+                                authViewModel.logout(navController, context)
+                                showLogoutDialog.value = false
+                            }) {
+                                Text("Yes")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(onClick = { showLogoutDialog.value = false }) {
+                                Text("No")
+                            }
+                        }
+                    )
+                }
             }
         }
     }
