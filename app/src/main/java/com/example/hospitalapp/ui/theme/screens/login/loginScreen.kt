@@ -134,23 +134,23 @@ fun LoginScreen(navController: NavController){
                 textStyle = TextStyle(color = Color.White)
             )
 
-            OutlinedTextField(
-                value = confirmPassword,
-                onValueChange = { confirmPassword = it },
-                label = { Text("Confirm Password") },
-                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Confirm Password") },
-                modifier = textFieldModifier,
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.LightGray,
-                    cursorColor = Color.White,
-                    focusedLeadingIconColor = Color.White,
-                    unfocusedLeadingIconColor = Color.LightGray,
-                    focusedLabelColor = Color.White,
-                    unfocusedLabelColor = Color.LightGray
-                ),
-                textStyle = TextStyle(color = Color.White)
-            )
+//            OutlinedTextField(
+//                value = confirmPassword,
+//                onValueChange = { confirmPassword = it },
+//                label = { Text("Confirm Password") },
+//                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = "Confirm Password") },
+//                modifier = textFieldModifier,
+//                colors = OutlinedTextFieldDefaults.colors(
+//                    focusedBorderColor = Color.White,
+//                    unfocusedBorderColor = Color.LightGray,
+//                    cursorColor = Color.White,
+//                    focusedLeadingIconColor = Color.White,
+//                    unfocusedLeadingIconColor = Color.LightGray,
+//                    focusedLabelColor = Color.White,
+//                    unfocusedLabelColor = Color.LightGray
+//                ),
+//                textStyle = TextStyle(color = Color.White)
+//            )
 
             Spacer(modifier = Modifier.height(20.dp))
 

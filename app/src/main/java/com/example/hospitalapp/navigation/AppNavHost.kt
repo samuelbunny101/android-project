@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.hospitalapp.ui.theme.screens.SplashScreen
 import com.example.hospitalapp.ui.theme.screens.dashboard.DashboardScreen
 import com.example.hospitalapp.ui.theme.screens.login.LoginScreen
 import com.example.hospitalapp.ui.theme.screens.patients.AddPatientScreen
@@ -15,8 +16,18 @@ import com.example.hospitalapp.ui.theme.screens.patients.UpdatePatientScreen
 import com.example.hospitalapp.ui.theme.screens.register.RegisterScreen
 
 @Composable
-fun AppNavHost(navController: NavHostController = rememberNavController(), startDestination: String = ROUTE_DASHBOARD){
+fun AppNavHost(navController: NavHostController = rememberNavController(), startDestination: String = ROUTE_SPLASH_SCREEN){
     NavHost(navController = navController, startDestination = startDestination){
+        composable(ROUTE_SPLASH_SCREEN){
+            SplashScreen {
+                navController.navigate(ROUTE_REGISTER){
+                    popUpTo(ROUTE_SPLASH_SCREEN){inclusive = true}
+                }
+            }
+//            SplashScreen(
+//                onNavigateToNext = { navController.navigate(ROUTE_REGISTER) }
+//            )
+        }
         composable (ROUTE_REGISTER){
             RegisterScreen(navController)
         }

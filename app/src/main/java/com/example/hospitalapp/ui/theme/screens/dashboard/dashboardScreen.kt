@@ -3,6 +3,8 @@ package com.example.hospitalapp.ui.theme.screens.dashboard
 
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +27,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
@@ -96,14 +99,28 @@ fun DashboardScreen(navController: NavController, authViewModel: AuthViewModel =
                 )
                 NavigationBarItem(
                     selected = selectedItem.value == 0,
-                    onClick = { selectedItem.value = 0 },
-                    icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-                    label = { Text("Home") },
+                    onClick = {
+                        selectedItem.value = 0
+                        val intent = Intent(Intent.ACTION_DIAL).apply {
+                            data = Uri.parse("tel:0700000008")
+                        }
+                        context.startActivity(intent)
+                    },
+                    icon = { Icon(Icons.Filled.Phone, contentDescription = "Phone") },
+                    label = { Text("Phone") },
                     alwaysShowLabel = true
                 )
                 NavigationBarItem(
                     selected = selectedItem.value == 2,
-                    onClick = { selectedItem.value = 2 },
+                    onClick = {
+                        selectedItem.value = 2
+                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = Uri.parse( "mailto:info@emobilis.edu" )
+                            putExtra(Intent.EXTRA_SUBJECT, "Hospital App")
+                            putExtra(Intent.EXTRA_TEXT, "Hello, I'm using this app.")
+                        }
+                        context.startActivity(intent)
+                    },
                     icon = { Icon(Icons.Filled.Email, contentDescription = "Email") },
                     label = { Text("Email") },
                     alwaysShowLabel = true
